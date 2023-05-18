@@ -25,8 +25,11 @@ function App() {
         role: "KHACH_HANG",
       },
     });
-    return () => socket.current.close();
-  }, []);
+
+    return () => {
+      socket.current.close();
+    }
+  });
 
   return (
     <Box>

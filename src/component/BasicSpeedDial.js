@@ -65,17 +65,13 @@ export default function BasicSpeedDial({ socket, customerId }) {
   };
 
   useEffect(() => {
-    console.log("here",socket);
     socket?.current?.on("customerReceiveMessage", (data) => {
-      console.log(data);
       setMessages((prev) => [...prev, data]);
     });
 
-    return () => {
-      console.log("here2")
+    return () => 
       socket?.current.off("customerReceiveMessage");
-    };
-  }, [socket]);
+  });
 
   const handleChangeText = (event) => {
     setMsg(event.target.value);
