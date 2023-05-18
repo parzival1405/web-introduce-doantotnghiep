@@ -77,6 +77,12 @@ export default function BasicSpeedDial({ socket, customerId }) {
     setMsg(event.target.value);
   };
 
+  const demoSubmit = (event) => {
+    if (event.keyCode == 13) {
+      handleSendMessage();
+    }
+  };
+
   return (
     <Box>
       <div role="presentation" className={classes.root}>
@@ -128,6 +134,7 @@ export default function BasicSpeedDial({ socket, customerId }) {
                       onClick={
                         isChat ? handleSendMessage : handleCreateConversation
                       }
+                      onKeyDown={demoSubmit}
                     >
                       Gửi
                     </Button>
