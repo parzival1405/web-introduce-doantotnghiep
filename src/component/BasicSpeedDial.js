@@ -164,6 +164,7 @@ export default function BasicSpeedDial({ socket, customerId }) {
                         type="submit"
                         startIcon={<Send />}
                         onClick={handleSendMessage}
+                        onKeyDown={demoSubmit}
                       >
                         Gửi
                       </Button>
