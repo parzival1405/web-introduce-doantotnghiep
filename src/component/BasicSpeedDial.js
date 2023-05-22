@@ -134,7 +134,6 @@ export default function BasicSpeedDial({ socket, customerId }) {
                       onClick={
                         isChat ? handleSendMessage : handleCreateConversation
                       }
-                      onKeyDown={demoSubmit}
                     >
                       Gửi
                     </Button>
@@ -157,6 +156,7 @@ export default function BasicSpeedDial({ socket, customerId }) {
                         size="small"
                         style={{ marginRight: "5px" }}
                         onChange={handleChangeText}
+                        onKeyDown={demoSubmit}
                       />
                       <Button
                         color="primary"
@@ -164,7 +164,6 @@ export default function BasicSpeedDial({ socket, customerId }) {
                         type="submit"
                         startIcon={<Send />}
                         onClick={handleSendMessage}
-                        onKeyDown={demoSubmit}
                       >
                         Gửi
                       </Button>
