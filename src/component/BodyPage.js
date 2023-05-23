@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { Field, Form, Formik } from "formik";
 import { Button, Grid, Paper } from "@mui/material";
 import DateLabel from "../Form/ControlsLabel/DateLabel";
@@ -74,9 +74,10 @@ const useStyle = makeStyles((theme) => ({
 
 function BodyPage({socket}) {
   const [services, setServices] = useState([]);
-
+  const [doctors,setDoctors ] = useState([]);
   const classes = useStyle();
   const [imageUrl, setImageUrl] = useState("");
+  const [serviceFilter, setServiceFilter] = useState(null);
 
   const generateQrCode = async (id) => {
     try {
@@ -85,6 +86,23 @@ function BodyPage({socket}) {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const doctorFilter = useMemo(() => {
+    if (serviceFilter) {
+      return doctors.filter(
+        (item) =>
+          item?.room?.medicalDepartment?.id ===
+          serviceFilter.medicalDepartment.id
+      );
+    } else {
+      return doctors;
+    }
+  }, [serviceFilter]);
+
+  const onSelectService = (e, name, value, setFieldValue) => {
+    setFieldValue(name, value);
+    setServiceFilter(value);
   };
 
   const handleSubmitForm = async (values) => {
@@ -147,6 +165,9 @@ function BodyPage({socket}) {
     const callApi = async () => {
       const servicesResponse = await api.getAllService();
       setServices(servicesResponse.data);
+
+      const staffResponse = await api.getAllStaffByRole("DOCTOR");
+      setDoctors(staffResponse.data)
     };
     callApi();
   }, []);
@@ -269,6 +290,9 @@ function BodyPage({socket}) {
                 options={services}
                 accessField={"name"}
                 setFieldValue={setFieldValue}
+                onChange={(event, newValue) =>
+                  onSelectService(event, "service", newValue, setFieldValue)
+                }
                 name="service"
                 value={values?.service}
                 label="Loại khám"
@@ -283,7 +307,7 @@ function BodyPage({socket}) {
               />
               <SelectedLabel
                 value={values?.doctor}
-                options={optionsDoctor}
+                options={doctorFilter}
                 accessField={"fullName"}
                 setFieldValue={setFieldValue}
                 name="doctor"

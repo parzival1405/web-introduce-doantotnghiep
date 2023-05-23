@@ -16,6 +16,9 @@ export const saveMedicalLetters = (formData) =>
 // service
 export const getAllService = () => API.get("api/services");
 
+export const getAllStaffByRole = (role) =>
+  API.get(`api/users/roles?role=${role}`);
+
 export const sendEmail = (formData) => APISendEmail.post("api/sendEmail/send",formData);
 // doctor
 // export const getDoctorByService = () => API.get("api/doctor");
